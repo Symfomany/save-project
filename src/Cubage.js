@@ -4,8 +4,8 @@ import Select from "react-select";
 import Autosuggest from "react-autosuggest";
 import M from "materialize-css/dist/js/materialize.min.js";
 import "./Cubage.css";
-
-import Button from "@material-ui/core/Button";
+import ReactDOM from "react-dom";
+import $ from "jquery";
 
 const languages = [
   {
@@ -41,13 +41,6 @@ const getSuggestions = value => {
         lang => lang.name.toLowerCase().slice(0, inputLength) === inputValue
       );
 };
-
-// When suggestion is clicked, Autosuggest needs to populate the input
-// based on the clicked suggestion. Teach Autosuggest how to calculate the
-// input value for every given suggestion.
-const getSuggestionValue = suggestion => suggestion.name;
-
-const renderSuggestion = suggestion => <div>{suggestion.name}</div>;
 
 const options = [
   { value: "foret1", label: "Fôret des Ardennes" },
@@ -101,111 +94,121 @@ export default class Cubage extends React.Component {
   };
 
   componentDidMount() {
-    document.addEventListener("DOMContentLoaded", function() {
-      var elems = document.querySelectorAll(".autocomplete");
-      var instances = M.Autocomplete.init(elems, {
-        data: {
-          "Fôret des Ardennes": null,
-          "Fôret des Vosges": null,
-          "Fôret des Marigny": null,
-          "Fôret de la Comté": null,
-          "Fôret de Châtillon": null,
-          "Fôret Chenue": null,
-          "Fôret de Fontenay": null,
-          "Fôret de Bassican": null,
-          "Fôret du Vercors": null,
-          "Fôret des Fays": null,
-          "Fôret de Randan": null,
-          "Fôret du Der": null,
-          "Fôret de Clairvaux": null,
-          "Fôret du Massacre": null,
-          "Fôret de Champlitte": null
-        }
-      });
+    var elems = $("#autocomplete-input");
+    M.Autocomplete.init(elems, {
+      data: {
+        "Fôret des Ardennes": null,
+        "Fôret des Vosges": null,
+        "Fôret des Marigny": null,
+        "Fôret de la Comté": null,
+        "Fôret de Châtillon": null,
+        "Fôret Chenue": null,
+        "Fôret de Fontenay": null,
+        "Fôret de Bassican": null,
+        "Fôret du Vercors": null,
+        "Fôret des Fays": null,
+        "Fôret de Randan": null,
+        "Fôret du Der": null,
+        "Fôret de Clairvaux": null,
+        "Fôret du Massacre": null,
+        "Fôret de Champlitte": null
+      }
     });
-    document.addEventListener("DOMContentLoaded", function() {
-      var elems = document.querySelectorAll("select");
-      var instances = M.FormSelect.init(elems);
+
+    var elems = $("#autocomplete-input-two");
+    M.Autocomplete.init(elems, {
+      data: {
+        Epicéa: null,
+        Châtaignier: null,
+        Chêne: null,
+        Hêtre: null,
+        Charme: null,
+        Frêne: null,
+        Merisier: null,
+        Erable: null,
+        Mélèze: null,
+        "Pin d’Alep": null,
+        "Pin maritime": null,
+        "Pin sylvestre": null,
+        "Pin cembro": null,
+        "Pin à crochets": null,
+        "Pin laricio de Corse": null,
+        "Sapin des Vosges": null
+      }
     });
+
+    var elems = $("select");
+    M.FormSelect.init(elems);
   }
 
   render() {
     return (
       <div>
         <div className="row">
-          <div className="col s12">
-            <div className="input-field col s12">
-              <input id="nom" type="text" className="validate" />
-              <label htmlFor="nom">Nom de la parcelle</label>
-            </div>
+          <div className="input-field col s12">
+            <input id="nom" type="text" className="validate" required />
+            <label htmlFor="nom">Nom de la parcelle</label>
+          </div>
 
-            <div className="input-field col s12">
-              <input
-                type="text"
-                id="autocomplete-input"
-                className="autocomplete"
-              />
-              <label htmlFor="autocomplete-input">Choisissez la Foret</label>
-            </div>
+          <div className="input-field col s12">
+            <input
+              type="text"
+              id="autocomplete-input"
+              className="autocomplete"
+              required
+            />
+            <label htmlFor="autocomplete-input">Choisissez la Foret</label>
+          </div>
 
-            <div className="input-field col s12">
-              <select>
-                <option>Choisir l'unité de mesure</option>
-                <option value="1">mm.</option>
-                <option value="1">cm.</option>
-                <option value="3">decamètre</option>
-                <option value="2">mètre</option>
-              </select>
-            </div>
+          <div className="input-field col s12">
+            <select multiple>
+              <option disabled>Choisissez la parcelle de mesure</option>
+              <option value="0">Parcelle 1</option>
+              <option value="1">Parcelle 2</option>
+              <option value="2">Parcelle 3</option>
+              <option value="3">Parcelle 4</option>
+              <option value="4">Parcelle 5</option>
+            </select>
+          </div>
 
-            <Button variant="contained" color="primary">
-              Hello World
-            </Button>
+          <div className="input-field col s12">
+            <input id="autre" type="text" className="validate" />
+            <label htmlFor="autre">Autre sous-parcelle</label>
+          </div>
 
-            <div className="input-field col s12">
-              <select>
-                <option>Choisissez la parcelle de mesure</option>
-                <option>Parcelle 1</option>
-                <option value="1">Parcelle 2</option>
-                <option value="1">Parcelle 3</option>
-                <option value="1">Parcelle 4</option>
-                <option value="1">Parcelle 5</option>
-              </select>
-            </div>
+          <div className="card">
+            <div className="card-content">
+              <div className="input-field col s12">
+                <select className="browser-default">
+                  <option value="0">Choisissez la qualité du bois</option>
+                  <option value="1">Sec</option>
+                  <option value="2">Vert</option>
+                  <option value="3">Bonne</option>
+                </select>
+              </div>
+              <div className="input-field col s12">
+                <select className="browser-default">
+                  <option value="0">Choisissez la formule</option>
+                  <option value="1">Hubert</option>
+                  <option value="2">Jas</option>
+                </select>
+              </div>
 
-            <div className="input-field col s12">
-              <input id="autre" type="text" className="validate" />
-              <label htmlFor="autre">Autre sous-parcelle</label>
-            </div>
-
-            <div className="card">
-              <div className="card-content ">
-                <div className="input-field col s12">
-                  <input id="essence" type="text" className="validate" />
-                  <label htmlFor="essence">Essence</label>
-                </div>
-                <div className="input-field col s12">
-                  <select>
-                    <option>Choisissez la qualité du bois</option>
-                    <option>Sec</option>
-                    <option>Vert</option>
-                    <option>Bonne</option>
-                  </select>
-                </div>
-                <div className="input-field col s12">
-                  <select>
-                    <option>Choisissez la formule</option>
-                    <option>Hubert</option>
-                    <option>Jas</option>
-                  </select>
-                </div>
+              <div className="input-field col s12">
+                <select className="browser-default">
+                  <option value="0">Choisir l'unité de mesure</option>
+                  <option value="1">mm.</option>
+                  <option value="1">cm.</option>
+                  <option value="3">decamètre</option>
+                  <option value="2">mètre</option>
+                </select>
               </div>
             </div>
-
-            <Link className="waves-effect waves-light btn btn-large" to="/Menu">
-              <i className="material-icons">done</i> Enregistrer ce cubage
-            </Link>
           </div>
+
+          <Link className="waves-effect waves-light btn btn-large" to="/Menu">
+            <i className="material-icons">done</i> Enregistrer ce cubage
+          </Link>
         </div>
       </div>
     );

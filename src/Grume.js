@@ -1,90 +1,296 @@
 import React from "react";
-import { CSVLink } from "react-csv";
+import { Link } from "react-router-dom";
+import $ from "jquery";
+import M from "materialize-css/dist/js/materialize.min.js";
+import PropTypes from "prop-types";
+import SpeechRecognition from "react-speech-recognition";
 
-const headers = [
-  { label: "First Name", key: "firstname" },
-  { label: "Last Name", key: "lastname" },
-  { label: "Email", key: "email" }
-];
+const propTypes = {
+  // Props injected by SpeechRecognition
+  transcript: PropTypes.string,
+  resetTranscript: PropTypes.func,
+  startListening: PropTypes.func,
+  browserSupportsSpeechRecognition: PropTypes.bool
+};
 
-const data = [
-  { firstname: "Ahmed", lastname: "Tomi", email: "ah@smthing.co.com" },
-  { firstname: "Raed", lastname: "Labes", email: "rl@smthing.co.com" },
-  { firstname: "Yezzi", lastname: "Min l3b", email: "ymin@cocococo.com" }
-];
+const options = {
+  autoStart: false,
+  continuous: false,
+  interimResults: true,
+  //   maxAlternatives: 1,
+  recognition: {
+    lang: "fr-FR"
+  }
+};
+const regexLot = new RegExp("lot|los|l`'02|l'eau|eau", "i");
+const regexPlaquette = new RegExp("quett?es?|kate|kette|kete|paquet", "i");
+const regexDiametre = new RegExp("diamètre|maitre|mettre|metre|mètre", "i");
+const regexEssence = new RegExp("sens|essence|cense|ess", "i");
+const regexLongueur = new RegExp("longueur|gueur|geur", "i");
+const regexQualite = new RegExp("qualite|qualit|lité|lite", "i");
+const regexQual = new RegExp("me sec|mi sec|sec|humide|vert", "i");
+const regexArbre = new RegExp(
+  "epicea|Châtaignier|Chataignier|hêtre|mélèze|Pin|Pin maritime|Pin sylvestre|Sapin|Frêne|Merisier|Erable|chaîne|chêne|boulot|être|peupliers?|tilleul|séquoia",
+  "i"
+);
 
-export default class Grume extends React.Component {
+const regexNb = new RegExp("[0-9]+", "i");
+
+class Grume extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      drap: true,
+      lot: "",
+      plaquette: "",
+      diametre: "",
+      longeur: "",
+      qualite: "",
+      volume: 0,
+      arbre: ""
+    };
+    this.toggleSound = this.toggleSound.bind(this);
+  }
+
+  componentDidMount() {
+    var elems = $("#autocomplete-input");
+    M.Autocomplete.init(elems, {
+      data: {
+        "Fôret des Ardennes": null,
+        "Fôret des Vosges": null,
+        "Fôret des Marigny": null,
+        "Fôret de la Comté": null,
+        "Fôret de Châtillon": null,
+        "Fôret Chenue": null,
+        "Fôret de Fontenay": null,
+        "Fôret de Bassican": null,
+        "Fôret du Vercors": null,
+        "Fôret des Fays": null,
+        "Fôret de Randan": null,
+        "Fôret du Der": null,
+        "Fôret de Clairvaux": null,
+        "Fôret du Massacre": null,
+        "Fôret de Champlitte": null
+      }
+    });
+  }
+
+  componentDidUpdate() {
+    const { startListening, stopListening, transcript } = this.props;
+    const speech = transcript.trim();
+
+    if (regexLot.test(speech)) {
+      this.lot.focus();
+      if (regexNb.test(speech)) {
+        var nb = speech.match(regexNb);
+        // console.log(nb[0]);
+        this.state.lot = nb[0];
+      }
+    } else if (regexPlaquette.test(speech)) {
+      this.plaquette.focus();
+      if (regexNb.test(speech)) {
+        var nb = speech.match(regexNb);
+        // console.log(nb[0]);
+        this.state.plaquette = nb[0];
+      }
+    } else if (regexDiametre.test(speech)) {
+      this.diametre.focus();
+      if (regexNb.test(speech)) {
+        var nb = speech.match(regexNb);
+        // console.log(nb[0]);
+        this.state.diametre = nb[0];
+        window.scrollTo(0, document.body.scrollHeight);
+      }
+    } else if (regexQualite.test(speech)) {
+      this.qualite.focus();
+      if (regexQual.test(speech)) {
+        var qualite = speech.match(regexQual);
+        // console.log(nb[0]);
+        this.state.qualite = qualite[0];
+        window.scrollTo(0, document.body.scrollHeight);
+      }
+    } else if (regexLongueur.test(speech)) {
+      this.longeur.focus();
+      if (regexNb.test(speech)) {
+        var nb = speech.match(regexNb);
+        this.state.longeur = nb[0];
+      }
+    } else if (regexEssence.test(speech)) {
+      console.log(speech);
+      this.arbre.focus();
+      var arbre = speech.match(regexArbre);
+      console.log(arbre);
+      if (arbre) {
+        this.state.arbre = arbre[0];
+      }
+    }
+
+    if (this.state.diametre.length > 0 && this.state.longeur.length > 0) {
+      this.state.volume =
+        ((Math.PI * Math.pow(parseFloat(this.state.diametre), 2)) / 4) *
+        parseFloat(this.state.longeur);
+    }
+  }
+
+  toggleSound() {
+    this.setState({
+      drap: !this.state.drap
+    });
+    if (this.state.drap) {
+      this.props.startListening();
+      M.toast({ html: "Mico activé", classes: "rounded" });
+    } else {
+      this.props.stopListening();
+      M.toast({ html: "Mico desactivé", classes: "rounded" });
+    }
+  }
+
   render() {
+    const { startListening, stopListening, transcript } = this.props;
+    const speech = transcript.trim();
+
     return (
       <div>
         <div className="row">
-          <div className="col s9">
-            <div className="input-field col s12">
-              <div className="input-field col s12">
-                <input id="nom" type="text" className="validate" />
-                <label htmlFor="nom">Lot</label>
-              </div>
-            </div>
-            <div className="input-field col s12">
-              <div className="input-field col s12">
-                <input id="plaquette" type="text" className="validate" />
-                <label htmlFor="plaquette">Plaquette</label>
-              </div>
-            </div>
-            <div className="input-field col s12">
-              <div className="input-field col s12">
-                <input id="essence" type="text" className="validate" />
-                <label htmlFor="essence">Essence</label>
-              </div>
-            </div>
-            <div className="input-field col s12">
-              <div className="input-field col s12">
-                <p class="range-field">
-                  <input type="range" id="test5" min="0" max="100" />
-                </p>
-              </div>
-            </div>
-            <div className="input-field col s12">
-              <div className="input-field col s12">
-                <input id="diametre" type="text" className="validate" />
-                <label htmlFor="diametre">Diamètre</label>
-              </div>
-            </div>
-            <div className="input-field col s12">
-              <div className="input-field col s12">
-                <input id="qualite" type="text" className="validate" />
-                <label htmlFor="qualite">Qualité</label>
-              </div>
-            </div>
-            <div className="input-field col s12">
-              <div className="input-field col s12">
-                <input id="volume" type="text" className="validate" />
-                <label htmlFor="volume">Volume</label>
-              </div>
-            </div>
+          <a
+            onClick={this.toggleSound}
+            className={`btn-large  btn-floating treslarge ${
+              this.state.drap ? "red" : "pulse"
+            }`}
+          >
+            {this.state.drap ? (
+              <i className="material-icons right">mic_off</i>
+            ) : (
+              <i className="material-icons right">mic</i>
+            )}
+          </a>
 
-            <div className="input-field col s12">
-              <button
-                class="btn waves-effect waves-light btn-large"
-                type="submit"
-                name="action"
-              >
-                Enregistrer le grume
-                <i class="material-icons right">send</i>
-              </button>
+          {/* <Dicta recognition={{ lang: "fr-FR" }} /> */}
 
-              <CSVLink
-                class="btn-floating btn-large cyan pulse"
-                data={data}
-                headers={headers}
-              >
-                <i class="material-icons right">cloud_download</i>
-                Télécharger le csv
-              </CSVLink>
+          <div className="input-field col s12">
+            <div className="input-field col s12">
+              <i className="material-icons prefix">filter_7</i>
+              <input
+                placeholder="Numéro du lot"
+                id="nom"
+                type="number"
+                className="validate"
+                value={this.state.lot}
+                ref={input => {
+                  this.lot = input;
+                }}
+              />
             </div>
+          </div>
+          <div className="input-field col s12">
+            <div className="input-field col s12">
+              <i className="material-icons prefix">filter_4</i>
+
+              <input
+                id="plaquette"
+                placeholder="Numéro de Plaquette"
+                value={this.state.plaquette}
+                type="number"
+                className="validate"
+                ref={input => {
+                  this.plaquette = input;
+                }}
+              />
+            </div>
+          </div>
+          <div className="input-field col s12">
+            <div className="input-field col s12">
+              <i className="material-icons prefix">local_florist</i>
+
+              <input
+                id="autocomplete-input"
+                placeholder="Essence de l'arbre"
+                type="text"
+                required
+                className="validate"
+                value={this.state.arbre}
+                ref={input => {
+                  this.arbre = input;
+                }}
+              />
+            </div>
+          </div>
+          <div className="input-field col s12">
+            <div className="input-field col s12">
+              <i className="material-icons prefix">crop</i>
+              <input
+                id="longeur"
+                type="number"
+                placeholder="Longeur de l'arbre (cm.)"
+                className="validate"
+                value={this.state.longeur}
+                ref={input => {
+                  this.longeur = input;
+                }}
+              />
+            </div>
+          </div>
+          <div className="input-field col s12">
+            <div className="input-field col s12">
+              <i className="material-icons prefix">crop_free</i>
+              <input
+                id="diametre"
+                placeholder="Diamètre"
+                type="number"
+                className="validate"
+                value={this.state.diametre}
+                ref={input => {
+                  this.diametre = input;
+                }}
+              />
+            </div>
+          </div>
+          <div className="input-field col s12">
+            <div className="input-field col s12">
+              <i className="material-icons prefix">check</i>
+
+              <input
+                placeholder="Qualité"
+                id="qualite"
+                type="text"
+                className="validate"
+                value={this.state.qualite}
+                ref={input => {
+                  this.qualite = input;
+                }}
+              />
+            </div>
+          </div>
+          <div className="input-field col s12">
+            <div className="input-field col s12">
+              <i className="material-icons prefix">filter_frames</i>
+              <input
+                id="volume"
+                type="number"
+                className="validate"
+                placeholder="Volume"
+                value={this.state.volume}
+              />
+              <span class="helper-text" data-error="wrong" data-success="right">
+                V = ((π d²) / 4) * L (HUBERT AFNOR)
+              </span>
+            </div>
+          </div>
+
+          <div className="input-field col s12">
+            <Link
+              className="waves-effect waves-light btn btn-large"
+              to="/resume"
+            >
+              <i className="material-icons">send</i> Enregistrer ce grume
+            </Link>
           </div>
         </div>
       </div>
     );
   }
 }
+
+Grume.propTypes = propTypes;
+
+export default SpeechRecognition(options)(Grume);

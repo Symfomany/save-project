@@ -1,5 +1,12 @@
 .main {
   min-height: 1000px;
+  background: white;
+}
+nav .brand-logo {
+  margin-left: 10px;
+}
+#root {
+  background: white;
 }
 nav {
   margin-bottom: 20px;
@@ -22,4 +29,16 @@ nav {
 .route-wrapper > div {
   position: absolute;
   width: 100%;
+}
+.logo {
+  width: 500px;
+  margin: 0 auto;
+}
+.btn-floating.treslarge {
+  width: 150px;
+  height: 150px;
+}
+.btn-floating.btn-large i {
+  line-height: 155px;
+  font-size: 5rem;
 }

@@ -1,11 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { geolocated, geoPropTypes } from "react-geolocated";
-
+import Image from "./Societe-forestiere-logo.png";
 class Home extends React.Component {
   render() {
     return (
       <div>
+        <img src={Image} className="logo responsive-img" />
         <Link className="waves-effect waves-light btn" to="/cubage">
           Cubage bord route
         </Link>
@@ -15,7 +16,27 @@ class Home extends React.Component {
         <p id="demo" />
 
         {this.props.coords ? (
-          <div />
+          <div>
+            <ul>
+              <li>
+                Latitude: <b>{this.props.coords.latitude}</b>
+              </li>
+              <li>
+                Longitude: <b>{this.props.coords.longitude}</b>
+              </li>
+              {this.props.coords.altitude ? (
+                <li>
+                  Altitude: <b>{this.props.coords.altitude}</b>
+                </li>
+              ) : (
+                <div />
+              )}
+            </ul>
+
+            <button class="btn btn-large btn-floating teal darken-4">
+              <i class="material-icons">gps_fixed</i>
+            </button>
+          </div>
         ) : (
           <div class="preloader-wrapper big active">
             <div class="spinner-layer spinner-blue-only">
@@ -40,4 +61,7 @@ Home.propTypes = Object.assign({}, Home.propTypes, geoPropTypes);
 // Using ES6 object spread syntax
 Home.propTypes = { ...Home.propTypes, ...geoPropTypes };
 
-export default geolocated()(Home);
+const options = {
+  watchPosition: true
+};
+export default geolocated(options)(Home);

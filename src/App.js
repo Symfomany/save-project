@@ -7,6 +7,7 @@ import Menu from "./Menu";
 import "./App.css";
 import { AnimatedSwitch } from "react-router-transition";
 import { spring } from "react-router-transition";
+import Resume from "./Resume";
 
 // we need to map the `scale` prop we define below
 // to the transform style property
@@ -51,8 +52,9 @@ function App() {
         <nav className="teal darken-2">
           <div className="nav-wrapper">
             <Link to="/" className="brand-logo">
-              <i className="material-icons">devices_other</i> Logo
+              <i className="material-icons">assignment</i> Inventaire Forestier
             </Link>
+
             <ul className="right hide-on-med-and-down">
               <li>
                 <Link to="/">
@@ -106,6 +108,7 @@ function App() {
             <Route path="/" exact component={Home} />
             <Route path="/menu" component={Menu} />
             <Route path="/grume" component={Grume} />
+            <Route path="/resume" component={Resume} />
           </AnimatedSwitch>
         </div>
 
