@@ -29,12 +29,18 @@ const regexEssence = new RegExp("sens|essence|cense|ess", "i");
 const regexLongueur = new RegExp("longueur|gueur|geur", "i");
 const regexQualite = new RegExp("qualite|qualit|lité|lite", "i");
 const regexQual = new RegExp("me sec|mi sec|sec|humide|vert", "i");
+
 const regexArbre = new RegExp(
-  "epicea|Châtaignier|Chataignier|hêtre|mélèze|Pin|Pin maritime|Pin sylvestre|Sapin|Frêne|Merisier|Erable|chaîne|chêne|boulot|être|peupliers?|tilleul|séquoia",
+  "epicea|Châtaignier|Chataignier|Charme|Amandier|Cèdre|Noyer|Noistier|Platane|Orme|Poirier|Pommier|Saule|Tilleul|Pommier|Erable|Tremble|Cèdre|Cèdre|Cèdre|Ginkgo|Frêne|Frêne|marronnier|hêtre|mélèze|Pin|Pin maritime|Pin sylvestre|Sapin|Frêne|Merisier|Erable|chaîne|chêne|boulot|être|peupliers?|tilleul|séquoia",
+  "i"
+);
+const regexComment = new RegExp(
+  "mentaire|mentère|commentaire|commentaires|comm",
   "i"
 );
 
 const regexNb = new RegExp("[0-9]+", "i");
+const regexComm = new RegExp(".*", "i");
 
 class Grume extends React.Component {
   constructor(props) {
@@ -47,7 +53,8 @@ class Grume extends React.Component {
       longeur: "",
       qualite: "",
       volume: 0,
-      arbre: ""
+      arbre: "",
+      comm: ""
     };
     this.toggleSound = this.toggleSound.bind(this);
   }
@@ -122,6 +129,15 @@ class Grume extends React.Component {
       console.log(arbre);
       if (arbre) {
         this.state.arbre = arbre[0];
+      }
+    } else if (regexComment.test(speech)) {
+      this.comm.focus();
+      let comm = speech.match(regexComm);
+      comm = comm.input;
+      const regex = /commentaire|commentaires|fin de commentaire/gi;
+      if (comm.length > 0) {
+        comm = comm.replace(regex, "");
+        this.state.comm = comm;
       }
     }
 
@@ -271,9 +287,28 @@ class Grume extends React.Component {
                 placeholder="Volume"
                 value={this.state.volume}
               />
-              <span class="helper-text" data-error="wrong" data-success="right">
+              <span
+                className="helper-text"
+                data-error="wrong"
+                data-success="right"
+              >
                 V = ((π d²) / 4) * L (HUBERT AFNOR)
               </span>
+            </div>
+          </div>
+
+          <div className="input-field col s12">
+            <div className="input-field col s12">
+              <i className="material-icons prefix">chat</i>
+              <textarea
+                id="volume"
+                className="materialize-textarea"
+                placeholder="Votre commentaire"
+                value={this.state.comm}
+                ref={input => {
+                  this.comm = input;
+                }}
+              />
             </div>
           </div>
 
@@ -282,7 +317,7 @@ class Grume extends React.Component {
               className="waves-effect waves-light btn btn-large"
               to="/resume"
             >
-              <i className="material-icons">send</i> Enregistrer ce grume
+              <i className="material-icons right">save</i> Enregistrer ce grume
             </Link>
           </div>
         </div>

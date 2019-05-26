@@ -19,6 +19,9 @@
     "react-scripts": "3.0.1",
     "react-select": "^2.4.3",
     "react-speech-recognition": "^2.0.1",
+    "velocity": "^0.7.2",
+    "velocity-animate": "^1.5.2",
+    "velocity-react": "^1.4.3",
     "web-speech-cognitive-services": "^4.0.0"
   },
   "scripts": {

@@ -1,5 +1,5 @@
 .main {
-  min-height: 1000px;
+  min-height: 1200px;
   background: white;
 }
 nav .brand-logo {
@@ -38,7 +38,7 @@ nav {
   width: 150px;
   height: 150px;
 }
-.btn-floating.btn-large i {
+.btn-floating.treslarge i {
   line-height: 155px;
   font-size: 5rem;
 }

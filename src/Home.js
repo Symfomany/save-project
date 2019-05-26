@@ -2,11 +2,21 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { geolocated, geoPropTypes } from "react-geolocated";
 import Image from "./Societe-forestiere-logo.png";
+import Map from "./tree.png";
+
 class Home extends React.Component {
+  constructor(props) {
+    super(props);
+    this.refresh = this.refresh.bind(this);
+  }
+
+  refresh() {
+    this.forceUpdate();
+  }
   render() {
     return (
       <div>
-        <img src={Image} className="logo responsive-img" />
+        <img src={Image} className="logo responsive-img center-block" />
         <Link className="waves-effect waves-light btn" to="/cubage">
           Cubage bord route
         </Link>
@@ -31,23 +41,35 @@ class Home extends React.Component {
               ) : (
                 <div />
               )}
+              <li>
+                <a
+                  href={`https://maps.google.com/?q=${
+                    this.props.coords.latitude
+                  },${this.props.coords.longitude}`}
+                >
+                  <b>Voir sur Google Map</b>
+                </a>
+              </li>
             </ul>
 
-            <button class="btn btn-large btn-floating teal darken-4">
-              <i class="material-icons">gps_fixed</i>
+            <button
+              onClick={this.refresh}
+              className="btn waves-effect right fixed btn-large btn-floating teal darken-4"
+            >
+              <i className="material-icons">gps_fixed</i>
             </button>
           </div>
         ) : (
-          <div class="preloader-wrapper big active">
-            <div class="spinner-layer spinner-blue-only">
-              <div class="circle-clipper left">
-                <div class="circle" />
+          <div className="preloader-wrapper big active">
+            <div className="spinner-layer spinner-blue-only">
+              <div className="circle-clipper left">
+                <div className="circle" />
               </div>
-              <div class="gap-patch">
-                <div class="circle" />
+              <div className="gap-patch">
+                <div className="circle" />
               </div>
-              <div class="circle-clipper right">
-                <div class="circle" />
+              <div className="circle-clipper right">
+                <div className="circle" />
               </div>
             </div>
           </div>
