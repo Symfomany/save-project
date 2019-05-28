@@ -17,33 +17,34 @@ export default class Menu extends React.Component {
         <ul className="col s12">
           <li>
             <Link
-              className="waves-effect waves-light btn btn-large  teal lighten-2"
+              className="waves-effect waves-light btn  teal lighten-2"
               to="/grume"
             >
-              CUBER ET LOTIR DES GRUMES AVEC UNE SEULE QUALITE PAR GRUME
+              <i class="material-icons right">navigate_next</i>
+              CUBAGE UNE SEULE QUALITE PAR GRUME
             </Link>
           </li>
           <li>
             <Link
-              className="waves-effect waves-light btn btn-large teal lighten-1"
+              className="waves-effect waves-light btn teal lighten-1"
               to="/cubage"
             >
-              CUBER ET LOTIR DES GRUMES AVEC PLUSIEURS QUALITES PAR GRUME
+              <i class="material-icons right">navigate_next</i>
+              CUBAGE PLUSIEURS QUALITES PAR GRUME
+            </Link>
+          </li>
+          <li>
+            <Link className="waves-effect waves-light btn  teal" to="/cubage">
+              <i class="material-icons right">navigate_next</i> CUBAGE GRUMES
+              EMPILEES METHODE JAS
             </Link>
           </li>
           <li>
             <Link
-              className="waves-effect waves-light btn btn-large teal"
+              className="waves-effect waves-light btn  teal darken-1"
               to="/cubage"
             >
-              CUBER DES GRUMES EMPILEES (DENOMBREMENT OU METHODE JAS)
-            </Link>
-          </li>
-          <li>
-            <Link
-              className="waves-effect waves-light btn btn-large teal darken-1"
-              to="/cubage"
-            >
+              <i class="material-icons right">navigate_next</i>
               STERER DES PILES DE BOIS
             </Link>
           </li>

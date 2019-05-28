@@ -8,6 +8,7 @@ import "./App.css";
 import { AnimatedSwitch } from "react-router-transition";
 import { spring } from "react-router-transition";
 import Resume from "./Resume";
+import Image from "./Societe-forestiere-logo.png";
 
 // we need to map the `scale` prop we define below
 // to the transform style property
@@ -49,52 +50,54 @@ function App() {
   return (
     <div className="App">
       <Router>
-        <nav className="teal darken-2">
-          <div className="nav-wrapper">
-            <Link to="/" className="brand-logo">
-              <i className="material-icons">assignment</i> Inventaire Forestier
-            </Link>
+        <div className="navbar">
+          <nav className="teal darken-2">
+            <div className="nav-wrapper">
+              <Link to="/" className="brand-logo">
+                <i className="material-icons">assignment</i> Inventaire
+              </Link>
 
-            <ul className="right hide-on-med-and-down">
-              <li>
-                <Link to="/">
-                  <i className="material-icons">reply</i>
-                </Link>
-              </li>
-              <li>
-                <a href="sass.html">
-                  <i className="material-icons">event</i>
-                </a>
-              </li>
-              <li>
-                <a href="badges.html">
-                  <i className="material-icons">supervisor_account</i>
-                </a>
-              </li>
-              <li>
-                <a href="collapsible.html">
-                  <i className="material-icons">attach_money</i>
-                </a>
-              </li>
-              <li>
-                <a href="collapsible.html">
-                  <i className="material-icons">headset_mic</i>
-                </a>
-              </li>
+              <ul className="right hide-on-med-and-down">
+                <li>
+                  <Link to="/">
+                    <i className="material-icons">reply</i>
+                  </Link>
+                </li>
+                <li>
+                  <a href="sass.html">
+                    <i className="material-icons">event</i>
+                  </a>
+                </li>
+                <li>
+                  <a href="badges.html">
+                    <i className="material-icons">supervisor_account</i>
+                  </a>
+                </li>
+                <li>
+                  <a href="collapsible.html">
+                    <i className="material-icons">attach_money</i>
+                  </a>
+                </li>
+                <li>
+                  <a href="collapsible.html">
+                    <i className="material-icons">headset_mic</i>
+                  </a>
+                </li>
 
-              <li>
-                <a href="mobile.html">
-                  <i className="material-icons">add</i>
-                </a>
-              </li>
-              <li>
-                <a href="mobile.html">
-                  <i className="material-icons">settings</i>
-                </a>
-              </li>
-            </ul>
-          </div>
-        </nav>
+                <li>
+                  <a href="mobile.html">
+                    <i className="material-icons">add</i>
+                  </a>
+                </li>
+                <li>
+                  <a href="mobile.html">
+                    <i className="material-icons">settings</i>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </nav>
+        </div>
 
         <div className="center main">
           <AnimatedSwitch
@@ -112,37 +115,36 @@ function App() {
           </AnimatedSwitch>
         </div>
 
-        <footer className="page-footer teal lighten-2">
+        <footer className="page-footer teal darken-2">
           <div className="container">
             <div className="row">
               <div className="col l6 s12">
-                <h5 className="white-text">Footer Content</h5>
+                <h5 className="white-text">SOCIÉTÉ FORESTIÈRE</h5>
                 <p className="grey-text text-lighten-4">
-                  You can use rows and columns here to organize your footer
-                  content.
+                  8 bis rue de Châteaudun - 75009 Paris
                 </p>
               </div>
               <div className="col l4 offset-l2 s12">
-                <h5 className="white-text">Links</h5>
+                <h5 className="white-text">Agences</h5>
                 <ul>
                   <li>
                     <a className="grey-text text-lighten-3" href="#!">
-                      Link 1
+                      Centre
                     </a>
                   </li>
                   <li>
                     <a className="grey-text text-lighten-3" href="#!">
-                      Link 2
+                      Grand Sud Ouest
                     </a>
                   </li>
                   <li>
                     <a className="grey-text text-lighten-3" href="#!">
-                      Link 3
+                      Est - Sud Est
                     </a>
                   </li>
                   <li>
                     <a className="grey-text text-lighten-3" href="#!">
-                      Link 4
+                      Nord Est
                     </a>
                   </li>
                 </ul>
@@ -151,10 +153,10 @@ function App() {
           </div>
           <div className="footer-copyright">
             <div className="container">
-              © 2014 Copyright Text
-              <a className="grey-text text-lighten-4 right" href="#!">
-                More Links
-              </a>
+              © 2019 SOCIÉTÉ FORESTIÈRE DE LA CAISSE DES DÉPÔTS
+              <p>
+                APPELEZ-NOUS <a href="tel:01 40 39 81 00">01 40 39 81 00</a>
+              </p>
             </div>
           </div>
         </footer>

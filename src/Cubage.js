@@ -5,20 +5,95 @@ import "./Cubage.css";
 import $ from "jquery";
 
 export default class Cubage extends React.Component {
-  state = {
-    selectedOption: null,
-    value: "",
-    suggestions: []
+  constructor(props) {
+    super(props);
+    this.state = {
+      foret: "",
+      serie: "",
+      parcelle: "",
+      sousparcelle: "",
+      autreParcelle: "",
+      autresousParcelle: "",
+      qualite: "",
+      methode: "Hubert",
+      unite: "cm."
+    };
+
+    this.go = this.go.bind(this);
+  }
+
+  go = () => {
+    console.log(this.state);
+    localStorage.setItem("cubage", JSON.stringify(this.state));
+    this.props.history.push("/menu");
   };
 
-  onChange = (event, { newValue }) => {
+  changeUnite = event => {
     this.setState({
-      value: newValue
+      unite: event.target.value
     });
+    console.log(event.target.value);
+  };
+  changeMethode = event => {
+    this.setState({
+      methode: event.target.value
+    });
+
+    console.log(event.target.value);
+  };
+  changeQualite = event => {
+    this.setState({
+      qualite: event.target.value
+    });
+    console.log(event.target.value);
+  };
+  changeAutreSousParcelle = event => {
+    this.setState({
+      autresousParcelle: event.target.value
+    });
+  };
+  changeSousParcelle = event => {
+    this.setState({
+      sousparcelle: event.target.value
+    });
+  };
+  changeAutreParcelle = event => {
+    this.setState({
+      autreParcelle: event.target.value
+    });
+  };
+
+  changeForetTwo = txt => {
+    this.setState({
+      foret: txt
+    });
+  };
+  changeForet = event => {
+    this.setState({
+      foret: event.target.value
+    });
+  };
+  changeSerie = event => {
+    this.setState({
+      serie: event.target.value
+    });
+  };
+
+  changeParcelle = event => {
+    this.setState({
+      parcelle: event.target.value
+    });
+    console.log(event.target.value);
   };
 
   componentDidMount() {
     var elems = $("#autocomplete-input");
+
+    const changeForetTwo = txt => {
+      this.setState({
+        foret: txt
+      });
+    };
     M.Autocomplete.init(elems, {
       data: {
         "Fôret des Ardennes": null,
@@ -36,6 +111,9 @@ export default class Cubage extends React.Component {
         "Fôret de Clairvaux": null,
         "Fôret du Massacre": null,
         "Fôret de Champlitte": null
+      },
+      onAutocomplete(text) {
+        changeForetTwo(text);
       }
     });
 
@@ -74,99 +152,139 @@ export default class Cubage extends React.Component {
               type="text"
               id="autocomplete-input"
               className="autocomplete"
+              value={this.state.foret}
+              onChange={this.changeForet}
               required
             />
             <label htmlFor="autocomplete-input">Choisissez la Foret</label>
           </div>
 
           <div className="input-field col s12">
-            <select className="browser-default">
-              <option disabled>Choisissez la série</option>
-              <option value="0">Série 1</option>
-              <option value="1">Série 2</option>
-              <option value="2">Série 3</option>
-              <option value="3">Série 4</option>
-              <option value="4">Série 5</option>
-            </select>
-          </div>
-
-          <div className="input-field col s12">
-            <select className="browser-default">
-              <option disabled>Choisissez la parcelle principale</option>
-              <option value="0">Parcelle 1</option>
-              <option value="1">Parcelle 2</option>
-              <option value="2">Parcelle 3</option>
-              <option value="3">Parcelle 4</option>
-              <option value="4">Parcelle 5</option>
-            </select>
-          </div>
-
-          <div className="input-field col s12">
-            <select multiple className="browser-default">
-              <option value="" disabled>
-                Autres parcelles
+            <select
+              className="browser-default"
+              value={this.state.serie}
+              onChange={this.changeSerie}
+            >
+              <option disabled selected>
+                Choisissez la série
               </option>
-              <option value="0">Parcelle 10</option>
-              <option value="1">Parcelle 20</option>
-              <option value="2">Parcelle 30</option>
-              <option value="3">Parcelle 40</option>
-              <option value="4">Parcelle 50</option>
+              <option value="Série 1">Série 1</option>
+              <option value="Série 2">Série 2</option>
+              <option value="Série 3">Série 3</option>
+              <option value="Série 4">Série 4</option>
+              <option value="Série 5">Série 5</option>
             </select>
           </div>
 
           <div className="input-field col s12">
-            <select className="browser-default">
-              <option value="" disabled>
+            <select
+              className="browser-default"
+              value={this.state.parcelle}
+              onChange={this.changeParcelle}
+            >
+              <option disabled selected>
+                Choisissez la parcelle principale
+              </option>
+              <option value="Parcelle 1">Parcelle 1</option>
+              <option value="Parcelle 2">Parcelle 2</option>
+              <option value="Parcelle 3">Parcelle 3</option>
+              <option value="Parcelle 4">Parcelle 4</option>
+              <option value="Parcelle 5">Parcelle 5</option>
+            </select>
+          </div>
+
+          <div className="input-field col s12">
+            <input
+              value={this.state.autreParcelle}
+              onChange={this.changeAutreParcelle}
+              id="autre"
+              type="text"
+              className="validate"
+            />
+            <label htmlFor="autre">Autres parcelles</label>
+          </div>
+
+          <div className="input-field col s12">
+            <select
+              className="browser-default"
+              value={this.state.sousParcelle}
+              onChange={this.changeSousParcelle}
+            >
+              <option value="a" disabled selected>
                 Choisissez la sous-parcelle principale
               </option>
-              <option value="">Sous-Parcelle 1</option>
-              <option value="1">Sous-Parcelle 2</option>
-              <option value="2">Sous-Parcelle 3</option>
-              <option value="3">Sous-Parcelle 4</option>
-              <option value="4">Sous-Parcelle 5</option>
+              <option value="Sous-Parcelle 1">Sous-Parcelle 1</option>
+              <option value="Sous-Parcelle 2">Sous-Parcelle 2</option>
+              <option value="Sous-Parcelle 3">Sous-Parcelle 3</option>
+              <option value="Sous-Parcelle 4">Sous-Parcelle 4</option>
+              <option value="Sous-Parcelle 5">Sous-Parcelle 5</option>
             </select>
           </div>
 
           <div className="input-field col s12">
-            <input id="autre" type="text" className="validate" />
-            <label htmlFor="autre">Autres sous-parcelles</label>
+            <input
+              id="autresousParcelle"
+              type="text"
+              className="validate"
+              value={this.state.autresousParcelle}
+              onChange={this.changeAutreSousParcelle}
+            />
+            <label htmlFor="autresousParcelle">Autres sous-parcelles</label>
           </div>
 
           <div className="input-field col s12">
-            <select className="browser-default">
-              <option value="" disabled>
+            <select
+              className="browser-default"
+              value={this.state.qualite}
+              onChange={this.changeQualite}
+            >
+              <option value="b" disabled selected>
                 Choisissez la qualité du bois
               </option>
-              <option value="1">Sec</option>
-              <option value="2">Vert</option>
-              <option value="3">Bonne</option>
+              <option value="Sec">Sec</option>
+              <option value="Vert">Vert</option>
+              <option value="Bonne">Bonne</option>
+              <option value="Humide">Humide</option>
             </select>
           </div>
           <div className="input-field col s12">
-            <select className="browser-default">
-              <option value="" disabled>
-                Choisissez la formule
+            <select
+              className="browser-default"
+              value={this.state.methode}
+              onChange={this.changeMethode}
+            >
+              <option value="b" disabled selected>
+                Méthode de cubage
               </option>
-              <option value="1">Hubert</option>
-              <option value="2">Jas</option>
+              <option value="Hubert" selected>
+                Hubert
+              </option>
+              <option value="Jas">Jas</option>
             </select>
           </div>
 
           <div className="input-field col s12">
-            <select className="browser-default">
-              <option value="" disabled>
+            <select
+              className="browser-default"
+              value={this.state.unite}
+              onChange={this.changeUnite}
+            >
+              <option value="a" disabled selected>
                 Choisir l'unité de mesure
               </option>
-              <option value="1">mm.</option>
-              <option value="1">cm.</option>
-              <option value="3">decamètre</option>
-              <option value="2">mètre</option>
+              <option value="cm.">cm.</option>
+              <option value="mm.">mm.</option>
+              <option value="dm.">decamètre</option>
+              <option value="m.">mètre</option>
             </select>
           </div>
 
-          <Link className="waves-effect waves-light btn btn-large" to="/Menu">
+          <button
+            className="waves-effect waves-light btn btn-large teal darken-2"
+            onClick={this.go}
+          >
             <i className="material-icons right">done</i> Enregistrer ce cubage
-          </Link>
+          </button>
         </div>
       </div>
     );

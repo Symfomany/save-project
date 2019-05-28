@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { geolocated, geoPropTypes } from "react-geolocated";
 import Image from "./Societe-forestiere-logo.png";
-import Map from "./tree.png";
+import Load from "./load.gif";
 
 class Home extends React.Component {
   constructor(props) {
@@ -10,18 +10,52 @@ class Home extends React.Component {
     this.refresh = this.refresh.bind(this);
   }
 
+  componentDidUpdate() {
+    const now = new Date();
+    const annee = now.getFullYear();
+    const mois = now.getMonth() + 1;
+    const jour = now.getDate();
+
+    const heure = now.getHours();
+    const minute = now.getMinutes();
+
+    let obj = {};
+    obj.id = 1;
+    obj.date =
+      ("0" + jour).slice(-2) + "/" + ("0" + mois).slice(-2) + "/" + annee;
+    obj.heure = heure + ":" + minute;
+
+    obj.latitude = this.props.coords.latitude;
+    obj.longitude = this.props.coords.longitude;
+    obj.altitude = this.props.coords.altitude;
+
+    localStorage.setItem("metas", JSON.stringify(obj));
+  }
+
   refresh() {
     this.forceUpdate();
   }
   render() {
+    const now = new Date();
+    const annee = now.getFullYear();
+    const mois = now.getMonth() + 1;
+    const jour = now.getDate();
+    const heure = now.getHours();
+    const minute = now.getMinutes();
+
     return (
       <div>
         <img src={Image} className="logo responsive-img center-block" />
-        <Link className="waves-effect waves-light btn" to="/cubage">
-          Cubage bord route
+        <Link
+          className="waves-effect waves-light btn btn-large teal darken-2"
+          to="/cubage"
+        >
+          <i class="material-icons right">navigate_next</i>
+          Cubage en bord de route
         </Link>
-        <button className="waves-effect waves-light btn">
-          Inventaire des bois sur pied
+        <button className="waves-effect waves-light btn btn-large teal darken-2">
+          <i class="material-icons right">navigate_next</i>
+          Inventaire bois sur pied
         </button>
         <p id="demo" />
 
@@ -29,6 +63,21 @@ class Home extends React.Component {
           <div>
             <ul>
               <li>
+                Mise à jour le{" "}
+                <i>
+                  {("0" + jour).slice(-2) +
+                    "/" +
+                    ("0" + mois).slice(-2) +
+                    "/" +
+                    annee +
+                    " à " +
+                    heure +
+                    ":" +
+                    minute}
+                </i>
+              </li>
+              <li>
+                {" "}
                 Latitude: <b>{this.props.coords.latitude}</b>
               </li>
               <li>
@@ -51,6 +100,7 @@ class Home extends React.Component {
                 </a>
               </li>
             </ul>
+            <img src={Load} className="logo responsive-img center-block" />
 
             <button
               onClick={this.refresh}

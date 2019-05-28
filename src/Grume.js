@@ -16,7 +16,7 @@ const propTypes = {
 const options = {
   autoStart: false,
   continuous: false,
-  interimResults: true,
+  interimResults: false,
   //   maxAlternatives: 1,
   recognition: {
     lang: "fr-FR"
@@ -28,7 +28,7 @@ const regexDiametre = new RegExp("diamètre|maitre|mettre|metre|mètre", "i");
 const regexEssence = new RegExp("sens|essence|cense|ess", "i");
 const regexLongueur = new RegExp("longueur|gueur|geur", "i");
 const regexQualite = new RegExp("qualite|qualit|lité|lite", "i");
-const regexQual = new RegExp("me sec|mi sec|sec|humide|vert", "i");
+const regexQual = new RegExp("sec|humide|vert|bonne", "i");
 
 const regexArbre = new RegExp(
   "epicea|Châtaignier|Chataignier|Charme|Amandier|Cèdre|Noyer|Noistier|Platane|Orme|Poirier|Pommier|Saule|Tilleul|Pommier|Erable|Tremble|Cèdre|Cèdre|Cèdre|Ginkgo|Frêne|Frêne|marronnier|hêtre|mélèze|Pin|Pin maritime|Pin sylvestre|Sapin|Frêne|Merisier|Erable|chaîne|chêne|boulot|être|peupliers?|tilleul|séquoia",
@@ -39,7 +39,7 @@ const regexComment = new RegExp(
   "i"
 );
 
-const regexNb = new RegExp("[0-9]+", "i");
+const regexNb = new RegExp("[0-9,.]+", "i");
 const regexComm = new RegExp(".*", "i");
 
 class Grume extends React.Component {
@@ -57,6 +57,45 @@ class Grume extends React.Component {
       comm: ""
     };
     this.toggleSound = this.toggleSound.bind(this);
+    this.changeLot = this.changeLot.bind(this);
+    this.changePlaquette = this.changePlaquette.bind(this);
+    this.changeDiametre = this.changeDiametre.bind(this);
+    this.changeLongeur = this.changeLongeur.bind(this);
+    this.changeQualite = this.changeQualite.bind(this);
+    this.changeVolume = this.changeVolume.bind(this);
+    this.changeArbre = this.changeArbre.bind(this);
+    this.changeComm = this.changeComm.bind(this);
+  }
+
+  go = () => {
+    console.log(this.state);
+    localStorage.setItem("grume", JSON.stringify(this.state));
+    this.props.history.push("/resume");
+  };
+
+  changeComm(event) {
+    this.setState({ comm: event.target.value });
+  }
+  changeArbre(event) {
+    this.setState({ arbre: event.target.value });
+  }
+  changeVolume(event) {
+    this.setState({ volume: event.target.value });
+  }
+  changeQualite(event) {
+    this.setState({ qualite: event.target.value });
+  }
+  changeLongeur(event) {
+    this.setState({ longeur: event.target.value });
+  }
+  changeDiametre(event) {
+    this.setState({ diametre: event.target.value });
+  }
+  changePlaquette(event) {
+    this.setState({ plaquette: event.target.value });
+  }
+  changeLot(event) {
+    this.setState({ lot: event.target.value });
   }
 
   componentDidMount() {
@@ -93,44 +132,48 @@ class Grume extends React.Component {
         // console.log(nb[0]);
         this.state.lot = nb[0];
       }
-    } else if (regexPlaquette.test(speech)) {
+    }
+    if (regexPlaquette.test(speech)) {
       this.plaquette.focus();
       if (regexNb.test(speech)) {
         var nb = speech.match(regexNb);
         // console.log(nb[0]);
         this.state.plaquette = nb[0];
       }
-    } else if (regexDiametre.test(speech)) {
+    }
+    if (regexDiametre.test(speech)) {
       this.diametre.focus();
       if (regexNb.test(speech)) {
         var nb = speech.match(regexNb);
         // console.log(nb[0]);
-        this.state.diametre = nb[0];
-        window.scrollTo(0, document.body.scrollHeight);
+        this.state.diametre = nb[0].replace(",", ".");
+        // window.scrollTo(0, document.body.scrollHeight);
       }
-    } else if (regexQualite.test(speech)) {
+    }
+    if (regexQualite.test(speech)) {
       this.qualite.focus();
       if (regexQual.test(speech)) {
         var qualite = speech.match(regexQual);
         // console.log(nb[0]);
         this.state.qualite = qualite[0];
-        window.scrollTo(0, document.body.scrollHeight);
+        // window.scrollTo(0, document.body.scrollHeight);
       }
-    } else if (regexLongueur.test(speech)) {
+    }
+    if (regexLongueur.test(speech)) {
       this.longeur.focus();
       if (regexNb.test(speech)) {
         var nb = speech.match(regexNb);
-        this.state.longeur = nb[0];
+        this.state.longeur = nb[0].replace(",", ".");
       }
-    } else if (regexEssence.test(speech)) {
-      console.log(speech);
+    }
+    if (regexEssence.test(speech)) {
       this.arbre.focus();
       var arbre = speech.match(regexArbre);
-      console.log(arbre);
       if (arbre) {
         this.state.arbre = arbre[0];
       }
-    } else if (regexComment.test(speech)) {
+    }
+    if (regexComment.test(speech)) {
       this.comm.focus();
       let comm = speech.match(regexComm);
       comm = comm.input;
@@ -142,9 +185,10 @@ class Grume extends React.Component {
     }
 
     if (this.state.diametre.length > 0 && this.state.longeur.length > 0) {
-      this.state.volume =
+      this.state.volume = (
         ((Math.PI * Math.pow(parseFloat(this.state.diametre), 2)) / 4) *
-        parseFloat(this.state.longeur);
+        parseFloat(this.state.longeur)
+      ).toFixed(2);
     }
   }
 
@@ -192,6 +236,7 @@ class Grume extends React.Component {
                 type="number"
                 className="validate"
                 value={this.state.lot}
+                onChange={this.changeLot}
                 ref={input => {
                   this.lot = input;
                 }}
@@ -208,6 +253,7 @@ class Grume extends React.Component {
                 value={this.state.plaquette}
                 type="number"
                 className="validate"
+                onChange={this.changePlaquette}
                 ref={input => {
                   this.plaquette = input;
                 }}
@@ -224,6 +270,7 @@ class Grume extends React.Component {
                 type="text"
                 required
                 className="validate"
+                onChange={this.changeArbre}
                 value={this.state.arbre}
                 ref={input => {
                   this.arbre = input;
@@ -239,7 +286,9 @@ class Grume extends React.Component {
                 type="number"
                 placeholder="Longeur de l'arbre (cm.)"
                 className="validate"
+                step="0.01"
                 value={this.state.longeur}
+                onChange={this.changeLongeur}
                 ref={input => {
                   this.longeur = input;
                 }}
@@ -255,6 +304,7 @@ class Grume extends React.Component {
                 type="number"
                 className="validate"
                 value={this.state.diametre}
+                onChange={this.changeDiametre}
                 ref={input => {
                   this.diametre = input;
                 }}
@@ -270,6 +320,7 @@ class Grume extends React.Component {
                 id="qualite"
                 type="text"
                 className="validate"
+                onChange={this.changeQualite}
                 value={this.state.qualite}
                 ref={input => {
                   this.qualite = input;
@@ -286,12 +337,9 @@ class Grume extends React.Component {
                 className="validate"
                 placeholder="Volume"
                 value={this.state.volume}
+                onChange={this.changeVolume}
               />
-              <span
-                className="helper-text"
-                data-error="wrong"
-                data-success="right"
-              >
+              <span className="helper-text">
                 V = ((π d²) / 4) * L (HUBERT AFNOR)
               </span>
             </div>
@@ -304,6 +352,7 @@ class Grume extends React.Component {
                 id="volume"
                 className="materialize-textarea"
                 placeholder="Votre commentaire"
+                onChange={this.changeComm}
                 value={this.state.comm}
                 ref={input => {
                   this.comm = input;
@@ -313,12 +362,12 @@ class Grume extends React.Component {
           </div>
 
           <div className="input-field col s12">
-            <Link
-              className="waves-effect waves-light btn btn-large"
-              to="/resume"
+            <button
+              className="waves-effect waves-light btn btn-large teal darken-2"
+              onClick={this.go}
             >
               <i className="material-icons right">save</i> Enregistrer ce grume
-            </Link>
+            </button>
           </div>
         </div>
       </div>

@@ -1,22 +1,56 @@
 import React from "react";
 import { CSVLink } from "react-csv";
+import { Link } from "react-router-dom";
+
 import Image from "./foret.jpg";
 const headers = [
-  { label: "First Name", key: "firstname" },
-  { label: "Last Name", key: "lastname" },
-  { label: "Email", key: "email" }
+  { label: "Id grume", key: "id" },
+  { label: "Date", key: "date" },
+  { label: "Heure", key: "heure" },
+  { label: "Latitude", key: "latitude" },
+  { label: "Longitude", key: "longitude" },
+  { label: "Forêt", key: "foret" },
+  { label: "Série", key: "serie" },
+  { label: "Parcelle princip", key: "parcelle" },
+  { label: "Autres parcelles", key: "autreParcelle" },
+  { label: "Sous-parc. principale", key: "sousparcelle" },
+  { label: "Autres sous- parc.", key: "autresousParcelle" },
+  { label: "LOT", key: "lot" },
+  { label: "PLAQUETTE", key: "plaquette" },
+  { label: "ESSENCE", key: "arbre" },
+  { label: "LONG.", key: "longeur" },
+  { label: "DIAM.", key: "diametre" },
+  { label: "QUALITE", key: "qualite" },
+  { label: "COMM.", key: "comm" },
+  { label: "VOLUME", key: "volume" }
 ];
 
-const data = [
-  { firstname: "Ahmed", lastname: "Tomi", email: "ah@smthing.co.com" },
-  { firstname: "Raed", lastname: "Labes", email: "rl@smthing.co.com" },
-  { firstname: "Yezzi", lastname: "Min l3b", email: "ymin@cocococo.com" }
-];
+const metas = JSON.parse(localStorage.getItem("metas"));
+const cubage = JSON.parse(localStorage.getItem("cubage"));
+const grume = JSON.parse(localStorage.getItem("grume"));
+
+const data = [{ ...metas, ...cubage, ...grume }];
 
 export default class Resume extends React.Component {
+  constructor(props) {
+    super(props);
+    const metas = JSON.parse(localStorage.getItem("metas"));
+    const cubage = JSON.parse(localStorage.getItem("cubage"));
+    const grume = JSON.parse(localStorage.getItem("grume"));
+    this.state = {
+      metas,
+      cubage,
+      grume
+    };
+
+    console.log(metas, cubage, grume);
+  }
+
   componentWillMount() {
     window.scrollTo(0, 0);
   }
+
+  componentDidMount() {}
   render() {
     return (
       <div>
@@ -37,13 +71,18 @@ export default class Resume extends React.Component {
                       <th>Série</th>
                       <th>Forêt</th>
                       <th>Qualité</th>
+                      <th>Méthode</th>
+                      <th>Unité</th>
                       <th>Parcelle</th>
                       <th>Autres parcelles</th>
                       <th>Sous-parcelle</th>
                       <th>Autres sous-parcelles</th>
+                      <th>Lot</th>
+                      <th>Plaquette</th>
                       <th>Essence</th>
                       <th>Longueur</th>
                       <th>Diamètre</th>
+                      <th>Volume</th>
                       <th>Commentaire</th>
                     </tr>
                   </thead>
@@ -51,63 +90,54 @@ export default class Resume extends React.Component {
                   <tbody>
                     <tr>
                       <td>1</td>
-                      <td>10/03/2019 à 12:33</td>
-                      <td>45.078, 4.7419</td>
-                      <td>1</td>
-                      <td>Forêt des Ardennes</td>
-                      <td>Sec</td>
-                      <td>Parcelle 1</td>
-                      <td>Parcelle 3, Parcelle 5</td>
-                      <td>Sous-Parcelle 233</td>
-                      <td>Sous-Parcelle 3</td>
-                      <td>Epicéa</td>
-                      <td>688cm.</td>
-                      <td>126cm.</td>
                       <td>
-                        <i>Cette arbre a 1000 ans d'âge</i>
+                        {this.state.metas.date} à {this.state.metas.heure}
+                      </td>
+                      <td>
+                        {this.state.metas.latitude.toFixed(5)},
+                        {this.state.metas.longitude.toFixed(5)}
+                      </td>
+                      <td>{this.state.cubage.serie}</td>
+                      <td>{this.state.cubage.foret}</td>
+                      <td>{this.state.cubage.qualite}</td>
+                      <td>{this.state.cubage.methode}</td>
+                      <td>{this.state.cubage.unite}</td>
+                      <td>{this.state.cubage.parcelle}</td>
+                      <td>{this.state.cubage.autreParcelle}</td>
+                      <td>{this.state.cubage.sousparcelle}</td>
+                      <td>{this.state.cubage.autresousParcelle}</td>
+                      <td>{this.state.grume.lot}</td>
+                      <td>{this.state.grume.plaquette}</td>
+                      <td>{this.state.grume.arbre}</td>
+                      <td>{this.state.grume.longeur}</td>
+                      <td>{this.state.grume.diametre}</td>
+                      <td>{this.state.grume.volume}</td>
+                      <td>
+                        <i>{this.state.grume.comm}</i>
                       </td>
                     </tr>
                   </tbody>
                 </table>
-
-                {/* <ul>
-                  <li>
-                    Id: <b>2</b>
-                  </li>
-                  <li>
-                    Date et heure: <b>10/03/2019 à 12:33</b>
-                  </li>
-                  <li>
-                    Coordonnées: <b>45.078, 4.7419</b> <br />
-                    <a href={`https://maps.google.com/?q=45.078, 4.7419`}>
-                      <b>Voir sur Google Map</b>
-                    </a>
-                  </li>
-                </ul> */}
-              </div>
-              <div className="card-action">
-                <a>
-                  <i className="material-icons left">save</i> Sauvegarde de
-                  l'inventaire
-                </a>
               </div>
             </div>
           </div>
         </div>
 
-        <button className="btn btn-large pink lighten-1">
-          <i className="material-icons left">edit</i> Modification de
-          l'inventaire
-        </button>
-        <button className="btn btn-large green lighten-1" />
-        <CSVLink className="btn btn-large cyan " data={data} headers={headers}>
+        <CSVLink
+          className="btn btn-large cyan pulse"
+          data={data}
+          headers={headers}
+        >
           <i className="material-icons left">cloud_download</i>
           Télécharger le fichier csv
         </CSVLink>
-        <button className="btn btn-large lime  darken-4">
+        <Link
+          className="waves-effect waves-light btn btn-large lime  darken-4"
+          to="/"
+        >
           <i className="material-icons left">cloud_download</i> Recommencer
           l'inventaire
-        </button>
+        </Link>
       </div>
     );
   }
