@@ -54,7 +54,7 @@ function App() {
           <nav className="teal darken-2">
             <div className="nav-wrapper">
               <Link to="/" className="brand-logo">
-                <i className="material-icons">assignment</i> Inventaire
+                <i className="material-icons">assignment</i> CRIDON ASSISTANT
               </Link>
 
               <ul className="right hide-on-med-and-down">
@@ -107,11 +107,7 @@ function App() {
             mapStyles={mapStyles}
             className="route-wrapper"
           >
-            <Route path="/cubage" component={Cubage} />
-            <Route path="/" exact component={Home} />
-            <Route path="/menu" component={Menu} />
-            <Route path="/grume" component={Grume} />
-            <Route path="/resume" component={Resume} />
+            <Route path="/" component={Grume} />
           </AnimatedSwitch>
         </div>
 
@@ -119,9 +115,9 @@ function App() {
           <div className="container">
             <div className="row">
               <div className="col l6 s12">
-                <h5 className="white-text">SOCIÉTÉ FORESTIÈRE</h5>
+                <h5 className="white-text">CRIDON Lyon</h5>
                 <p className="grey-text text-lighten-4">
-                  8 bis rue de Châteaudun - 75009 Paris
+                  37 Boulevard des Brotteaux, 69455 Lyon
                 </p>
               </div>
               <div className="col l4 offset-l2 s12">
@@ -129,22 +125,12 @@ function App() {
                 <ul>
                   <li>
                     <a className="grey-text text-lighten-3" href="#!">
-                      Centre
+                      Lyon
                     </a>
                   </li>
                   <li>
                     <a className="grey-text text-lighten-3" href="#!">
-                      Grand Sud Ouest
-                    </a>
-                  </li>
-                  <li>
-                    <a className="grey-text text-lighten-3" href="#!">
-                      Est - Sud Est
-                    </a>
-                  </li>
-                  <li>
-                    <a className="grey-text text-lighten-3" href="#!">
-                      Nord Est
+                      Paris
                     </a>
                   </li>
                 </ul>
