@@ -74,12 +74,10 @@ nav {
   }
 }
 .btn-floating.treslarge {
-  width: 70px;
-  height: 70px;
-  float: right;
-  margin-right: 15px;
+  width: 150px;
+  height: 150px;
 }
 .btn-floating.treslarge i {
-  line-height: 80px;
-  font-size: 3rem;
+  line-height: 155px;
+  font-size: 5rem;
 }

@@ -9,7 +9,6 @@ import { AnimatedSwitch } from "react-router-transition";
 import { spring } from "react-router-transition";
 import Resume from "./Resume";
 import Image from "./Societe-forestiere-logo.png";
-import Logo from "./log.png";
 
 // we need to map the `scale` prop we define below
 // to the transform style property
@@ -52,14 +51,10 @@ function App() {
     <div className="App">
       <Router>
         <div className="navbar">
-          <nav className="blue lighten-1">
+          <nav className="teal darken-2">
             <div className="nav-wrapper">
               <Link to="/" className="brand-logo">
-                <img
-                  style={{ width: 82 }}
-                  src={Logo}
-                  className="logo responsive-img center-block"
-                />
+                <i className="material-icons">assignment</i> CRIDON ASSISTANT
               </Link>
 
               <ul className="right hide-on-med-and-down">

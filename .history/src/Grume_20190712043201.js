@@ -75,14 +75,14 @@ class Grume extends React.Component {
             className="logo responsive-img center-block"
           />
           <img
-            style={{ width: 219, float: "left" }}
+            style={{ width: 22, float: "left" }}
             src="http://www.so-buzz.fr/wp-content/uploads/2016/10/ibm-watson.jpg"
           />
 
           <p>
             <a
               onClick={this.toggleSound}
-              className={`btn-large blue lighten-1  btn-floating treslarge ${
+              className={`btn-large blue lighten-4  btn-floating treslarge ${
                 this.state.drap ? "red" : "pulse"
               }`}
             >
@@ -116,7 +116,7 @@ class Grume extends React.Component {
 
           <div className="input-field col s12">
             <button
-              className="waves-effect waves-light btn btn-large blue lighten-1"
+              className="waves-effect waves-light btn btn-large teal darken-2"
               onClick={this.go}
             >
               <i className="material-icons right">save</i> Analyser cette

@@ -52,7 +52,7 @@ function App() {
     <div className="App">
       <Router>
         <div className="navbar">
-          <nav className="blue lighten-1">
+          <nav className="orange lighten-4">
             <div className="nav-wrapper">
               <Link to="/" className="brand-logo">
                 <img

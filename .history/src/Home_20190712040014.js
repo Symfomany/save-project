@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { geolocated, geoPropTypes } from "react-geolocated";
 import Image from "./Societe-forestiere-logo.png";
 import Load from "./load.gif";
-import Logo from "./logo.png";
 
 class Home extends React.Component {
   constructor(props) {
@@ -47,8 +46,6 @@ class Home extends React.Component {
     return (
       <div>
         <img src={Image} className="logo responsive-img center-block" />
-        <img src={Logo} className="logo responsive-img center-block" />
-
         <Link
           className="waves-effect waves-light btn btn-large teal darken-2"
           to="/cubage"

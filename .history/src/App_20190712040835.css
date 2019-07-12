@@ -76,10 +76,8 @@ nav {
 .btn-floating.treslarge {
   width: 70px;
   height: 70px;
-  float: right;
-  margin-right: 15px;
 }
 .btn-floating.treslarge i {
-  line-height: 80px;
+  line-height: 50px;
   font-size: 3rem;
 }
